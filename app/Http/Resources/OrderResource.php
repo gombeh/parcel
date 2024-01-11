@@ -19,6 +19,7 @@ class OrderResource extends JsonResource
             'sender' => CustomerResource::make($this->sender),
             'receiver' => CustomerResource::make($this->receiver),
             'parcels' => ParcelResource::collection($this->whenLoaded('parcels')),
+            'paracels_count' => $this->when($request->route()->named('orders.show'), fn() => $this->parcels->count()),
             'status' => $this->status,
         ];
     }

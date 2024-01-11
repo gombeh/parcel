@@ -41,6 +41,12 @@ class OrderController extends Controller
         return OrderResource::collection($orders);
     }
 
+    public function show(Order $order):OrderResource
+    {
+        $order->load('sender', 'receiver', 'parcels');
+        return OrderResource::make($order);
+    }
+
     /**
      * @param  OrderCreate $request
      * @return OrderResource

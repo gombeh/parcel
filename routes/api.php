@@ -16,5 +16,6 @@ use App\Http\Controllers\Api\OrderController;
 */
 
 Route::get('orders', [OrderController::class, 'index'])->name('orders.index');
+Route::get('orders/{order}', [OrderController::class, 'show'])->name('orders.show');
 Route::post('orders', [OrderController::class, 'store'])->name('orders.create');
 Route::patch('orders/{order}/update-status', [OrderController::class, 'updateStatus'])->name('orders.updateStatus');
