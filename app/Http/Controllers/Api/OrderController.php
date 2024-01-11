@@ -31,9 +31,7 @@ class OrderController extends Controller
             $builder->whereKey($order_id);
         })
         ->when($request->input('status'), function(Builder $builder, $status) {
-            $builder->whereHas('statuses', function(Builder $builder) use($status) {
-                $builder->where('name', $status);
-            });
+            $builder->where('status', $status);
         })
         ->latest()
         ->paginate();
@@ -82,6 +80,7 @@ class OrderController extends Controller
      {
         $name = OrderStatusEnum::from($request->input('name'));
         $order->statuses()->create(['name' => $name]);
+        $order->update(['status' => $name]);
         return OrderResource::make($order);
     }
 }

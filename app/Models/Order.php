@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Enums\OrderStatusEnum;
 
 
 class Order extends Model
@@ -15,7 +16,14 @@ class Order extends Model
     /**
      * @var array
      */
-    protected $fillable = ['sender_id', 'receiver_id'];
+    protected $fillable = ['sender_id', 'receiver_id', 'status'];
+
+    /**
+     * @var array
+     */
+    protected $casts = [
+        'name' => OrderStatusEnum::class    
+    ];
 
     /**
      * @return BelongsTo
@@ -47,9 +55,4 @@ class Order extends Model
         return $this->hasMany(OrderStatus::class, 'order_id', 'id');
     }
 
-
-    public function getStatusAttribute() {
-        $status =  $this->statuses->last();
-        return $status?->name ?? '';
-    }
 }
