@@ -12,11 +12,34 @@ use App\Http\Resources\OrderResource;
 use DB;
 use Throwable;
 use App\Enums\OrderStatusEnum;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+
 
 
 class OrderController extends Controller
 {
 
+    /**
+     * @param  Request $request
+     * @return AnonymousResourceCollection
+     */
+    public function index(Request $request):AnonymousResourceCollection
+    {
+        $orders = Order::with("sender", "receiver")
+        ->when($request->input('order_id'), function(Builder $builder, $order_id) {
+            $builder->whereKey($order_id);
+        })
+        ->when($request->input('status'), function(Builder $builder, $status) {
+            $builder->whereHas('statuses', function(Builder $builder) use($status) {
+                $builder->where('name', $status);
+            });
+        })
+        ->latest()
+        ->paginate();
+
+        return OrderResource::collection($orders);
+    }
 
     /**
      * @param  OrderCreate $request

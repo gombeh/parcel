@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Database\Factories\ParcelFactory;
+use Illuminate\Database\Eloquent\Factories\Factory;
+
 
 class OrderParcel extends Model
 {
@@ -18,4 +21,12 @@ class OrderParcel extends Model
      * @var array
      */
     protected $fillable = ['description', 'weight'];
+
+    /**
+     * Create a new factory instance for the model.
+     */
+    protected static function newFactory(): Factory
+    {
+        return ParcelFactory::new();
+    }
 }
