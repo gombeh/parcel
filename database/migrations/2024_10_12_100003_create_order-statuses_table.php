@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('order_statuses', function (Blueprint $table) {
             $table->id();
             $table->foreignId('order_id')->constrained('orders', 'id')->onDelete('cascade');
-            $table->enum("status",['register_order', 'populate', 'proccess_in_hob', 'distribute', 'delivered'])->default("register_order");
-            $table->timestamp('date');
+            $table->enum("name",['register_order', 'populate', 'proccess_in_hub', 'distribute', 'delivered'])->default("register_order");
+            $table->unique(['order_id', 'created_at']);
+            $table->timestamps();
+            $table->unique(['order_id', 'name']);
         });
     }
 

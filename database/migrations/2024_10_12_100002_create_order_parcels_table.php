@@ -11,10 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('order_parcels', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('sender_id')->constrained('customers', 'id')->onDelete('cascade');
-            $table->foreignId('reciver_id')->constrained('customers', 'id')->onDelete('cascade');
+            $table->foreignId('order_id')->constrained('orders', 'id')->onDelete('cascade');
+            $table->string('weight');
+            $table->integer('barcode');
+            $table->text('description');
             $table->timestamps();
         });
     }
@@ -24,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('orders');
+        Schema::dropIfExists('order_parcels');
     }
 };
